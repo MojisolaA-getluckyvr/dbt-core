@@ -12,16 +12,10 @@ ARG build_for=linux/amd64
 FROM --platform=$build_for python:3.11.2-slim-bullseye as base
 
 # N.B. The refs updated automagically every release via bumpversion
-# N.B. dbt-postgres is currently found in the core codebase so a value of dbt-core@<some_version> is correct
 
-ARG dbt_core_ref=dbt-core@v1.5.0rc1
-ARG dbt_postgres_ref=dbt-core@v1.5.0rc1
+
 ARG dbt_redshift_ref=dbt-redshift@v1.5.0rc1
-ARG dbt_bigquery_ref=dbt-bigquery@v1.5.0rc1
-ARG dbt_snowflake_ref=dbt-snowflake@v1.5.0rc1
-ARG dbt_spark_ref=dbt-spark@v1.5.0rc1
-# special case args
-ARG dbt_spark_version=all
+
 ARG dbt_third_party
 
 # System setup
@@ -52,41 +46,8 @@ RUN python -m pip install --upgrade pip setuptools wheel --no-cache-dir
 WORKDIR /usr/app/dbt/
 VOLUME /usr/app
 ENTRYPOINT ["dbt"]
-
-##
-# dbt-core
-##
-FROM base as dbt-core
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-core@v1.5.0rc1#egg=dbt-core&subdirectory=core"
-
-
-
-
 ##
 # dbt-redshift
 ##
 FROM base as dbt-redshift
 RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-redshift@v1.5.0rc1#egg=dbt-redshift"
-
-
-
-
-
-##
-# dbt-all
-##
-FROM base as dbt-all
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get install -y --no-install-recommends \
-    python-dev \
-    libsasl2-dev \
-    gcc \
-    unixodbc-dev \
-  && apt-get clean \
-  && rm -rf \
-    /var/lib/apt/lists/* \
-    /tmp/* \
-    /var/tmp/*
-  RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-redshift@v1.5.0rc1#egg=dbt-redshift"
-
