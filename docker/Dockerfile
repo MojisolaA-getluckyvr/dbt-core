@@ -62,8 +62,8 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-co
 ##
 # dbt-postgres
 ##
-FROM base as dbt-postgres
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-core@v1.5.0rc1#egg=dbt-postgres&subdirectory=plugins/postgres"
+#FROM base as dbt-postgres
+#RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-core@v1.5.0rc1#egg=dbt-postgres&subdirectory=plugins/postgres"
 
 
 ##
@@ -76,40 +76,40 @@ RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-re
 ##
 # dbt-bigquery
 ##
-FROM base as dbt-bigquery
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-bigquery@v1.5.0rc1#egg=dbt-bigquery"
+#FROM base as dbt-bigquery
+#RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-bigquery@v1.5.0rc1#egg=dbt-bigquery"
 
 
 ##
 # dbt-snowflake
 ##
-FROM base as dbt-snowflake
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-snowflake@v1.5.0rc1#egg=dbt-snowflake"
+#FROM base as dbt-snowflake
+#RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-snowflake@v1.5.0rc1#egg=dbt-snowflake"
 
 ##
 # dbt-spark
 ##
-FROM base as dbt-spark
-RUN apt-get update \
-  && apt-get dist-upgrade -y \
-  && apt-get install -y --no-install-recommends \
-    python-dev \
-    libsasl2-dev \
-    gcc \
-    unixodbc-dev \
-  && apt-get clean \
-  && rm -rf \
-    /var/lib/apt/lists/* \
-    /tmp/* \
-    /var/tmp/*
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-spark@v1.5.0rc1#egg=dbt-spark[all]"
+#FROM base as dbt-spark
+#RUN apt-get update \
+#  && apt-get dist-upgrade -y \
+#  && apt-get install -y --no-install-recommends \
+#    python-dev \
+#    libsasl2-dev \
+#    gcc \
+#    unixodbc-dev \
+#  && apt-get clean \
+#  && rm -rf \
+#    /var/lib/apt/lists/* \
+#    /tmp/* \
+#    /var/tmp/*
+#RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/dbt-spark@v1.5.0rc1#egg=dbt-spark[all]"
 
 
 ##
 # dbt-third-party
 ##
-FROM dbt-core as dbt-third-party
-RUN python -m pip install --no-cache-dir "${dbt_third_party}"
+#FROM dbt-core as dbt-third-party
+#RUN python -m pip install --no-cache-dir "${dbt_third_party}"
 
 ##
 # dbt-all
@@ -128,7 +128,7 @@ RUN apt-get update \
     /tmp/* \
     /var/tmp/*
   RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-redshift@v1.5.0rc1#egg=dbt-redshift"
-  RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-bigquery@v1.5.0rc1#egg=dbt-bigquery"
-  RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-snowflake@v1.5.0rc1#egg=dbt-snowflake"
-  RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-spark@v1.5.0rc1#egg=dbt-spark[all]"
-  RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-core@v1.5.0rc1#egg=dbt-postgres&subdirectory=plugins/postgres"
+  #RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-bigquery@v1.5.0rc1#egg=dbt-bigquery"
+  #RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-snowflake@v1.5.0rc1#egg=dbt-snowflake"
+  #RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-spark@v1.5.0rc1#egg=dbt-spark[all]"
+  #RUN python -m pip install --no-cache "git+https://github.com/dbt-labs/dbt-core@v1.5.0rc1#egg=dbt-postgres&subdirectory=plugins/postgres"
